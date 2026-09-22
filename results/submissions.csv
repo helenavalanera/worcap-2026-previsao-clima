@@ -1,3 +1,4 @@
 submission,modelo,public_score,private_score,status,descricao,arquivo,data
 S00,B00 climatologia,1.85077,,COMPLETE,S00 - climatologia mensal espacial,s00_climatologia.csv,2026-09-22 15:05:04
 S01,M03 residuos 600k leaves15,1.85663,,COMPLETE,S01 - M03 residuos 600k leaves15,s01_m03_residuo.csv,2026-09-22 15:06:54
+S02,M05+ONI corrigido (600k leaves15),1.84982,,COMPLETE,S02 - M05+ONI corrigido (rolling agregado 1.8514 -1.20% vs B00),s02_m05_oni.csv,2026-09-22 19:22:38
