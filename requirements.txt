@@ -1,12 +1,12 @@
 pandas
 numpy
-scikit-learn
+scikit-learn==1.9.1
 xarray
 netCDF4
 matplotlib
 seaborn
 jupyter
-lightgbm
+lightgbm==4.7.0
 kaggle
 kagglehub
 joblib
