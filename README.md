@@ -140,7 +140,7 @@ M05+ONI supera B00 nos três folds de forma consistente (delta agregado -1,20%).
 | S01 | M03 (resíduo, sem ONI) | 1,85663 |
 | S02 | M05+ONI (final) | 1,84982 |
 
-O rolling histórico é o critério usado para a seleção metodológica do modelo. O public score do Kaggle (baseado em ~50% do conjunto de teste) serve apenas como confirmação externa — o ganho relativo observado publicamente entre S00 e S02 (-0,05%) é bem menor que o observado no rolling agregado (-1,20%), o que é registrado como uma divergência real entre validação local e teste público, não resolvida no escopo deste projeto. O desempenho no leaderboard privado (a outra metade do teste) é desconhecido.
+O rolling histórico é o critério usado para a seleção metodológica do modelo. O public score do Kaggle (referente a 2023, a parcela pública do conjunto de teste) serve apenas como confirmação externa — o ganho relativo observado publicamente entre S00 e S02 (-0,05%) é bem menor que o observado no rolling agregado (-1,20%), o que é registrado como uma divergência real entre validação local e teste público, não resolvida no escopo deste projeto. O desempenho em 2024 (avaliação final/privada) é desconhecido.
 
 ## Diagnóstico do erro
 
@@ -179,11 +179,11 @@ Não é necessário rodar os demais scripts numerados (`01` a `21`) para reprodu
 
 ## Limitações
 
-- **Vintage do ONI**: a série usada é a publicação atual da NOAA CPC, não um arquivo histórico "como era conhecido em tempo real" em cada cutoff — uma limitação de fonte de dados documentada, não corrigível com os recursos disponíveis.
+- **Vintage do ONI**: a série ONI utilizada corresponde ao histórico atualmente publicado pela NOAA CPC; não foram utilizados vintages arquivados que reproduzissem exatamente os valores disponíveis em tempo real em cada data histórica — uma limitação de fonte de dados documentada, não corrigível com os recursos disponíveis.
 - **Amostragem de treino**: o modelo final treina com ~600 mil pontos de um universo de dezenas de milhões, por restrição de memória (8 GB) — o Gate 10/14 mostrou retorno pequeno ao aumentar esse volume, mas o efeito de usar a base completa nunca foi testado.
 - **Eventos extremos**: os eventos de maior intensidade (>20 mm/dia) concentram parte desproporcional do erro, e nenhuma técnica específica para cauda pesada (ex. loss Tweedie, modelo em duas etapas) foi testada.
 - **Validação limitada a três janelas**: o rolling-origin cobre 2017–2022; é uma amostra de períodos históricos, não uma garantia de generalização para 2023–2024.
-- **Public leaderboard ≠ avaliação final**: representa ~50% do teste oficial; o desempenho na outra metade (avaliação privada) não é conhecido.
+- **Public leaderboard ≠ avaliação final**: o público corresponde a 2023; a avaliação final/privada usa 2024, cujo desempenho não é conhecido.
 
 ## Trabalhos futuros
 
