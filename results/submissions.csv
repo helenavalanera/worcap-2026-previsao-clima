@@ -1,4 +1,4 @@
-submission,modelo,public_score,private_score,status,descricao,arquivo,data
-S00,B00 climatologia,1.85077,,COMPLETE,S00 - climatologia mensal espacial,s00_climatologia.csv,2026-09-22 15:05:04
-S01,M03 residuos 600k leaves15,1.85663,,COMPLETE,S01 - M03 residuos 600k leaves15,s01_m03_residuo.csv,2026-09-22 15:06:54
-S02,M05+ONI corrigido (600k leaves15),1.84982,,COMPLETE,S02 - M05+ONI corrigido (rolling agregado 1.8514 -1.20% vs B00),s02_m05_oni.csv,2026-09-22 19:22:38
+submission,modelo,arquivo,submission_id,data,public_score,private_score,status,sha256,observacao
+S00,B00 climatologia,s00_climatologia.csv,56467833,2026-09-22 15:05:04,1.85077,,COMPLETE,c9b34b072993204f52e5bcbdd2e2c8e63265e955401ffb51596aae755b8919a5,climatologia mensal espacial
+S01,M03 residuos 600k leaves15,s01_m03_residuo.csv,56467866,2026-09-22 15:06:54,1.85663,,COMPLETE,130b8d0808ef9363323de3bb1797749ed03e3d2618bb3642fc3835a3f9b7bb4e,resíduo sem ONI
+S02,M05+ONI corrigido (600k leaves15),s02_m05_oni.csv,56472538,2026-09-22 19:22:38,1.84982,,COMPLETE,c33952ea8164280d122c3b0e8c158a5e35bbfb891215882d40da6d1bc4daf9e0,modelo final; rolling agregado 1.8514 (-1.20% vs B00); melhor score publico

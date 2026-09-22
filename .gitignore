@@ -5,6 +5,8 @@ data/raw/
 data/processed/
 data/.complete/
 *.nc
+*.grib
+*.grib2
 models/*.joblib
 models/*.pkl
 submissions/*.csv
