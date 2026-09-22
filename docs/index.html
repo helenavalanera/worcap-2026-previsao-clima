@@ -2,43 +2,24 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>WORCAP 2026 — Previsão de Precipitação</title>
+<title>WORCAP 2026: Previsão de Precipitação</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Como desenvolvi, validei e corrigi um modelo de previsão de precipitação sobre a América do Sul — do baseline climatológico ao modelo final com ENSO.">
+<meta name="description" content="Como desenvolvi, validei e corrigi um modelo de previsão de precipitação sobre a América do Sul, do baseline climatológico ao modelo final com ENSO.">
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
   :root{
-    --ink:#14213D; --ink-soft:#46536B; --ink-faint:#7C8AA0;
-    --paper:#FBFBF8; --panel:#EFF1EC; --panel-2:#E4E8E1;
-    --border:#DFE2DA;
-    --accent:#2B6CB0; --accent-soft:#DCE9F5;
-    --warm:#B85125; --warm-soft:#F7E7DE;
-    --good:#2F7A55; --good-soft:#E1F0E6;
-    --mono: 'JetBrains Mono', ui-monospace, monospace;
-    --serif: 'EB Garamond', Georgia, serif;
-    --sans: 'IBM Plex Sans', -apple-system, sans-serif;
-    color-scheme: light;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --ink:#F2F3F0; --ink-soft:#B9C2D0; --ink-faint:#7E8AA0;
-      --paper:#0F1626; --panel:#171F33; --panel-2:#1E2740;
-      --border:#2A3450;
-      --accent:#7FB0E8; --accent-soft:#1C324D;
-      --warm:#E0A279; --warm-soft:#3A2A20;
-      --good:#8FD6B8; --good-soft:#1B3328;
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"]{
+    /* paleta fixa em azul-marinho, independente do modo claro/escuro do aparelho */
     --ink:#F2F3F0; --ink-soft:#B9C2D0; --ink-faint:#7E8AA0;
-    --paper:#0F1626; --panel:#171F33; --panel-2:#1E2740;
+    --paper:#0F1829; --panel:#182238; --panel-2:#1F2A44;
     --border:#2A3450;
     --accent:#7FB0E8; --accent-soft:#1C324D;
     --warm:#E0A279; --warm-soft:#3A2A20;
     --good:#8FD6B8; --good-soft:#1B3328;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --serif: 'EB Garamond', Georgia, serif;
+    --sans: 'IBM Plex Sans', -apple-system, sans-serif;
     color-scheme: dark;
   }
 
@@ -195,9 +176,31 @@
   }
   .notas-list b{color:var(--ink)}
   .notas-list a.back{font-size:13px; margin-left:6px; white-space:nowrap}
+
+  .icon{width:16px; height:16px; flex:none; vertical-align:-3px; margin-right:7px}
+  .eyebrow{display:flex; align-items:center}
+  .eyebrow .icon{color:var(--accent)}
+  .finding .icon{width:14px; height:14px; margin-right:5px}
 </style>
 </head>
 <body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-drop" viewBox="0 0 20 20"><path d="M10 2.5c3 4 5.5 7.3 5.5 10.2a5.5 5.5 0 1 1-11 0C4.5 9.8 7 6.5 10 2.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-target" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="i-route" viewBox="0 0 20 20"><circle cx="4.5" cy="4.5" r="2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="15.5" cy="15.5" r="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6.2 5.6C9 8 8 11 10 12.5s4 1 4.5 2.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 20 20"><path d="M10 2.3 16 4.5v5.2c0 4-2.6 6.8-6 8-3.4-1.2-6-4-6-8V4.5L10 2.3z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 7v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="13.6" r="0.9" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-bar" viewBox="0 0 20 20"><path d="M3.5 16.5v-5M9 16.5v-9M14.5 16.5V6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-search" viewBox="0 0 20 20"><circle cx="8.7" cy="8.7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12.6 12.6 16.5 16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 20 20"><path d="M15.8 8A6 6 0 1 0 16 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15.8 4v4h-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-book" viewBox="0 0 20 20"><path d="M4 3.5h5.5a2 2 0 0 1 2 2V16a1.6 1.6 0 0 0-1.6-1.6H4V3.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 3.5h-5.5a2 2 0 0 0-2 2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 3.5V16h-6.1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6.8 10.2l2.1 2.1 4.3-4.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 20 20"><path d="M10 2.8 17.5 16H2.5L10 2.8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 8v3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="13.6" r="0.9" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-dot" viewBox="0 0 20 20"><circle cx="10" cy="10" r="3" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-flask" viewBox="0 0 20 20"><path d="M8 2.5h4M8.5 2.5v4.8L4.2 15a1.6 1.6 0 0 0 1.4 2.4h8.8a1.6 1.6 0 0 0 1.4-2.4l-4.3-7.7V2.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><path d="M6.3 12.5h7.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
 
 <header class="top">
   <div class="top-inner">
@@ -216,8 +219,8 @@
 <main>
 
   <section class="hero">
-    <p class="eyebrow">Ciência de dados aplicada ao clima</p>
-    <h1>Um modelo para prever a chuva — e o processo de verificação por trás dele</h1>
+    <p class="eyebrow"><svg class="icon"><use href="#i-drop"></use></svg>Ciência de dados aplicada ao clima</p>
+    <h1>Um modelo para prever a chuva, e o processo de verificação por trás dele</h1>
     <p class="lede">Este é o relato técnico, escrito para ser acessível, de como desenvolvi um modelo para prever a precipitação mensal sobre a América do Sul: o que funcionou, o que não funcionou, um erro real que encontrei e corrigi, e por que o resultado final é confiável por causa disso.</p>
     <div class="hero-stats">
       <div class="stat"><div class="n">1,8739</div><div class="l">baseline (climatologia)</div></div>
@@ -228,12 +231,12 @@
   </section>
 
   <section id="problema">
-    <p class="eyebrow">O problema, em termos simples</p>
+    <p class="eyebrow"><svg class="icon"><use href="#i-target"></use></svg>O problema, em termos simples</p>
     <h2>Dado o clima de hoje, quanto vai chover no mês que vem?</h2>
-    <p class="lead-p">A tarefa: usando temperatura, umidade, pressão e vento observados em um mês, prever a média diária de chuva do <b>mês seguinte</b>, em cada ponto de uma grade cobrindo a América do Sul (cerca de 78 mil pontos, cada um representando um quadrado de 0,25° de latitude/longitude). O erro é medido em RMSE<sup class="fnref"><a href="#fn-2" id="fnref-2">2</a></sup> — quanto menor, melhor a previsão bateu com a chuva real.</p>
+    <p class="lead-p">A tarefa: usando temperatura, umidade, pressão e vento observados em um mês, prever a média diária de chuva do <b>mês seguinte</b>, em cada ponto de uma grade cobrindo a América do Sul (cerca de 78 mil pontos, cada um representando um quadrado de 0,25° de latitude/longitude). O erro é medido em RMSE<sup class="fnref"><a href="#fn-2" id="fnref-2">2</a></sup>: quanto menor o valor, mais próxima a previsão ficou da chuva real.</p>
     <div class="analogy">
       <p class="tag">Para quem não é da área</p>
-      <p>Se alguém perguntasse "quanto vai chover em São Paulo em janeiro?", uma resposta razoável já seria "a média histórica de janeiro em São Paulo" — sem saber nada sobre o ano específico. O desafio deste projeto é: é possível fazer melhor que essa média histórica, usando informação real do que está acontecendo na atmosfera no momento?</p>
+      <p>Se alguém perguntasse "quanto vai chover em São Paulo em janeiro?", uma resposta razoável já seria "a média histórica de janeiro em São Paulo", mesmo sem saber nada sobre o ano específico. O desafio deste projeto é: é possível fazer melhor do que essa média histórica, usando informação real do que está acontecendo na atmosfera no momento?</p>
     </div>
     <div class="card-grid">
       <div class="card">
@@ -242,129 +245,129 @@
       </div>
       <div class="card">
         <h3>A métrica</h3>
-        <p>RMSE (Root Mean Squared Error) em mm/dia — penaliza mais os erros grandes, então acertar os eventos de chuva forte pesa mais do que acertar os dias secos.</p>
+        <p>RMSE (Root Mean Squared Error) em mm/dia. Penaliza mais os erros grandes, então acertar os eventos de chuva forte pesa mais do que acertar os dias secos.</p>
       </div>
     </div>
   </section>
 
   <section id="roteiro">
-    <p class="eyebrow">O roteiro</p>
+    <p class="eyebrow"><svg class="icon"><use href="#i-route"></use></svg>O roteiro</p>
     <h2>Onze fases, uma pergunta de cada vez</h2>
-    <p class="lead-p">Em vez de testar tudo ao mesmo tempo, cada etapa — chamada de <b>gate</b><sup class="fnref"><a href="#fn-3" id="fnref-3">3</a></sup> no processo — respondeu a uma única pergunta, com evidência registrada antes de avançar para a próxima. É isso que torna o resultado final confiável: cada escolha tem um motivo documentado.</p>
+    <p class="lead-p">Em vez de testar tudo ao mesmo tempo, cada etapa (chamada de <b>gate</b><sup class="fnref"><a href="#fn-3" id="fnref-3">3</a></sup> no processo) respondeu a uma única pergunta, com evidência registrada antes de avançar para a próxima. É isso que torna o resultado final confiável: cada escolha tem um motivo documentado.</p>
 
     <div class="timeline">
 
       <div class="tstep">
         <div class="tnum">1</div>
         <div class="tbody">
-          <p class="fase">Fase 0 — Conhecer os dados</p>
+          <p class="fase">Fase 0: Conhecer os dados</p>
           <h3>Auditoria antes de qualquer modelo</h3>
-          <p>Antes de treinar qualquer modelo, verifiquei a estrutura real dos arquivos: quantos pontos na grade, qual período, quais unidades e — principalmente — confirmei exatamente qual mês de entrada corresponde a qual mês de saída. Essa correspondência não pode ser assumida; precisa ser checada diretamente nos dados.</p>
-          <span class="finding">301×261 pontos · 1940–2022 no treino</span>
+          <p>Antes de treinar qualquer modelo, verifiquei a estrutura real dos arquivos: quantos pontos na grade, qual período, quais unidades e, principalmente, qual mês de entrada corresponde a qual mês de saída. Essa correspondência não pode ser assumida; precisa ser checada diretamente nos dados.</p>
+          <span class="finding"><svg class="icon"><use href="#i-dot"></use></svg>301×261 pontos · 1940–2022 no treino</span>
         </div>
       </div>
 
       <div class="tstep">
         <div class="tnum">2</div>
         <div class="tbody">
-          <p class="fase">Fase 1 — O baseline mais simples possível</p>
+          <p class="fase">Fase 1: O baseline mais simples possível</p>
           <h3>B00<sup class="fnref"><a href="#fn-4" id="fnref-4">4</a></sup>: a média histórica como ponto de partida</h3>
-          <p>O primeiro baseline não usa nenhuma inteligência artificial: para cada ponto e mês, ele prevê a média histórica de chuva daquele lugar naquele mês. Foi difícil de superar — e se tornou a referência de comparação para todas as etapas seguintes.</p>
-          <span class="finding">RMSE 1,8739 (validação histórica)</span>
+          <p>O primeiro baseline não usa nenhuma inteligência artificial: para cada ponto e mês, ele prevê a média histórica de chuva daquele lugar naquele mês. Foi difícil de superar, e se tornou a referência de comparação para todas as etapas seguintes.</p>
+          <span class="finding"><svg class="icon"><use href="#i-dot"></use></svg>RMSE 1,8739 (validação histórica)</span>
         </div>
       </div>
 
       <div class="tstep">
         <div class="tnum">3</div>
         <div class="tbody">
-          <p class="fase">Fase 2 — A primeira tentativa de machine learning</p>
+          <p class="fase">Fase 2: A primeira tentativa de machine learning</p>
           <h3>M01<sup class="fnref"><a href="#fn-5" id="fnref-5">5</a></sup>: o modelo direto sobre os valores brutos</h3>
           <p>Treinei um modelo de gradient boosting (LightGBM) diretamente sobre os valores brutos de temperatura, vento, umidade etc., pedindo para ele prever a chuva. O resultado foi bem pior do que a simples média histórica.</p>
           <div class="analogy" style="margin:14px 0 0">
             <p class="tag">Por que isso aconteceu</p>
             <p>É comparável a estimar a altura de uma pessoa apenas pelo tamanho do sapato, sem nenhuma referência da distribuição normal de alturas: o modelo não tinha nenhuma noção do padrão sazonal esperado, e cada ponto da grade contava com poucos exemplos para aprender esse padrão sozinho.</p>
           </div>
-          <span class="finding warn">RMSE ≈ 2,25 — pior que a média histórica</span>
+          <span class="finding warn"><svg class="icon"><use href="#i-warn"></use></svg>RMSE ≈ 2,25 (pior que a média histórica)</span>
         </div>
       </div>
 
       <div class="tstep">
         <div class="tnum">4</div>
         <div class="tbody">
-          <p class="fase">Fase 3 — Trocando a pergunta</p>
+          <p class="fase">Fase 3: Trocando a pergunta</p>
           <h3>M03<sup class="fnref"><a href="#fn-6" id="fnref-6">6</a></sup>: prever a diferença, não o total</h3>
-          <p>Em vez de perguntar "quanto vai chover?", passei a perguntar "quanto esse mês vai <b>desviar</b> da média histórica daquele lugar?" — um valor bem menor e mais fácil de estimar. A previsão final soma esse desvio de volta à média histórica. Foi nessa etapa que o modelo passou a capturar sinal real.</p>
-          <span class="finding good">Formulação adotada dali em diante</span>
+          <p>Em vez de perguntar "quanto vai chover?", passei a perguntar "quanto esse mês vai <b>desviar</b> da média histórica daquele lugar?", um valor bem menor e mais fácil de estimar. A previsão final soma esse desvio de volta à média histórica. Foi nessa etapa que o modelo passou a capturar sinal real.</p>
+          <span class="finding good"><svg class="icon"><use href="#i-check"></use></svg>Formulação adotada dali em diante</span>
         </div>
       </div>
 
       <div class="tstep">
         <div class="tnum">5</div>
         <div class="tbody">
-          <p class="fase">Fase 4 — Testando o que não ajuda</p>
+          <p class="fase">Fase 4: Testando o que não ajuda</p>
           <h3>Vizinhança espacial, mais dados, árvores maiores</h3>
-          <p>Testei dar ao modelo a média das células vizinhas (não ajudou de forma consistente), aumentar a quantidade de dados de treino de 600 mil para 1,2 milhão de exemplos (ganho pequeno e instável) e usar árvores de decisão mais complexas (piorou — indício de que o modelo estava memorizando ruído em vez de aprender um padrão real).</p>
-          <span class="finding">Configuração mais simples venceu a mais complexa</span>
+          <p>Testei dar ao modelo a média das células vizinhas (não ajudou de forma consistente), aumentar a quantidade de dados de treino de 600 mil para 1,2 milhão de exemplos (ganho pequeno e instável) e usar árvores de decisão mais complexas (piorou, indício de que o modelo estava memorizando ruído em vez de aprender um padrão real).</p>
+          <span class="finding"><svg class="icon"><use href="#i-dot"></use></svg>Configuração mais simples venceu a mais complexa</span>
         </div>
       </div>
 
       <div class="tstep">
         <div class="tnum">6</div>
         <div class="tbody">
-          <p class="fase">Fase 5 — Primeira prova de fogo real</p>
+          <p class="fase">Fase 5: Primeira submissão diagnóstica</p>
           <h3>Submissões diagnósticas ao Kaggle</h3>
-          <p>Construí o pipeline completo de inferência oficial (2023–2024) e enviei as duas primeiras submissões: a climatologia pura e o modelo residual, para observar como cada abordagem se comportava no teste público real — antes de buscar otimizar a posição na competição.</p>
-          <span class="finding">S00 = 1,85077 · S01 = 1,85663</span>
+          <p>Construí o pipeline completo de inferência oficial (2023–2024) e enviei as duas primeiras submissões: a climatologia pura e o modelo residual, para observar como cada abordagem se comportava no teste público real, antes de buscar otimizar a posição na competição.</p>
+          <span class="finding"><svg class="icon"><use href="#i-dot"></use></svg>S00 = 1,85077 · S01 = 1,85663</span>
         </div>
       </div>
 
       <div class="tstep">
         <div class="tnum">7</div>
         <div class="tbody">
-          <p class="fase">Fase 6 — Dando mais contexto ao modelo</p>
+          <p class="fase">Fase 6: Dando mais contexto ao modelo</p>
           <h3>M05<sup class="fnref"><a href="#fn-7" id="fnref-7">7</a></sup>: anomalias em vez de valores absolutos</h3>
-          <p>Para cada variável atmosférica, criei uma versão de anomalia: não o valor bruto de temperatura, mas o quanto ela está acima ou abaixo do normal para aquele lugar e mês. Um valor absoluto de temperatura sozinho diz pouco; saber que está acima do normal para aquele mês e local é uma informação mais direta.</p>
-          <span class="finding">As anomalias passaram a pesar mais que os valores absolutos</span>
+          <p>Para cada variável atmosférica, criei uma versão de anomalia: o quanto ela está acima ou abaixo do normal para aquele lugar e mês, em vez do valor bruto de temperatura. Um valor absoluto sozinho diz pouco; saber que está acima do normal para aquele mês e local é uma informação mais direta.</p>
+          <span class="finding"><svg class="icon"><use href="#i-dot"></use></svg>As anomalias passaram a pesar mais que os valores absolutos</span>
         </div>
       </div>
 
       <div class="tstep">
         <div class="tnum">8</div>
         <div class="tbody">
-          <p class="fase">Fase 7 — Validação mais rigorosa</p>
+          <p class="fase">Fase 7: Validação mais rigorosa</p>
           <h3>Rolling-origin<sup class="fnref"><a href="#fn-8" id="fnref-8">8</a></sup>: testar em três janelas independentes</h3>
-          <p>Em vez de confiar em um único ponto de comparação, criei três janelas históricas independentes (2017–18, 2019–20, 2021–22), cada uma com suas próprias médias históricas recalculadas do zero. Um modelo só é considerado consistente se funcionar nas três — não apenas na mais favorável.</p>
-          <span class="finding">3 janelas históricas, sem sobreposição</span>
+          <p>Em vez de confiar em um único ponto de comparação, criei três janelas históricas independentes (2017–18, 2019–20, 2021–22), cada uma com suas próprias médias históricas recalculadas do zero. Um modelo só é considerado consistente se funcionar nas três, não apenas na mais favorável.</p>
+          <span class="finding"><svg class="icon"><use href="#i-dot"></use></svg>3 janelas históricas, sem sobreposição</span>
         </div>
       </div>
 
       <div class="tstep highlight">
         <div class="tnum">9</div>
         <div class="tbody">
-          <p class="fase">Fase 8 — O ponto de virada (e o erro encontrado)</p>
-          <h3>ENSO/ONI: a variável que faltava — e um vazamento de informação</h3>
-          <p>Adicionei o índice ONI<sup class="fnref"><a href="#fn-9" id="fnref-9">9</a></sup>, que mede o fenômeno El Niño/La Niña, um padrão de temperatura do oceano Pacífico que influencia a chuva em boa parte do mundo com meses de antecedência. O primeiro resultado pareceu bom demais para ser verdade. Uma auditoria revelou que o valor usado incluía informação de um mês posterior ao que deveria prever. Corrigi o alinhamento, testei de novo, e o resultado se manteve bom — desta vez de forma válida. <a href="#leakage">Veja a explicação completa abaixo.</a></p>
-          <span class="finding warn">Erro real encontrado e corrigido, não escondido</span>
+          <p class="fase">Fase 8: O ponto de virada (e o erro encontrado)</p>
+          <h3>ENSO/ONI: a variável que faltava (e um vazamento de informação)</h3>
+          <p>Adicionei o índice ONI<sup class="fnref"><a href="#fn-9" id="fnref-9">9</a></sup>, que mede o fenômeno El Niño/La Niña, um padrão de temperatura do oceano Pacífico que influencia a chuva em boa parte do mundo com meses de antecedência. O primeiro resultado pareceu bom demais para ser verdade. Uma auditoria revelou que o valor usado incluía informação de um mês posterior ao que deveria prever. Corrigi o alinhamento, testei de novo, e o resultado se manteve bom, desta vez de forma válida. <a href="#leakage">Veja a explicação completa abaixo.</a></p>
+          <span class="finding warn"><svg class="icon"><use href="#i-warn"></use></svg>Erro real, encontrado e corrigido</span>
         </div>
       </div>
 
       <div class="tstep">
         <div class="tnum">10</div>
         <div class="tbody">
-          <p class="fase">Fase 9 — Modelo final e submissão</p>
+          <p class="fase">Fase 9: Modelo final e submissão</p>
           <h3>Treino de produção e S02</h3>
           <p>Com o ONI corrigido, treinei o modelo final usando todo o histórico legitimamente disponível até dezembro de 2022 e gerei a submissão oficial para 2023–2024, validando cada linha contra o formato exigido pela competição antes de enviar.</p>
-          <span class="finding good">S02 = 1,84982 — melhor nota pública</span>
+          <span class="finding good"><svg class="icon"><use href="#i-check"></use></svg>S02 = 1,84982 · melhor nota pública</span>
         </div>
       </div>
 
       <div class="tstep">
         <div class="tnum">11</div>
         <div class="tbody">
-          <p class="fase">Fase 10 — Testando a última hipótese</p>
+          <p class="fase">Fase 10: Testando a última hipótese</p>
           <h3>CENSO<sup class="fnref"><a href="#fn-10" id="fnref-10">10</a></sup>: bastava agrupar por regime climático?</h3>
-          <p>Uma última pergunta: o ganho do ONI viria apenas de separar a média histórica em anos de El Niño, La Niña e neutros, sem nenhum machine learning? Testei — e essa versão simplificada ficou <b>pior</b> do que a própria média histórica comum. O modelo aprende combinações mais ricas entre o ONI, a atmosfera e a localização do que uma simples separação por regime.</p>
-          <span class="finding">Hipótese descartada com evidência — modelo final confirmado</span>
+          <p>Uma última pergunta: o ganho do ONI viria apenas de separar a média histórica em anos de El Niño, La Niña e neutros, sem nenhum machine learning? Testei, e essa versão simplificada ficou <b>pior</b> do que a própria média histórica comum. O modelo aprende combinações mais ricas entre o ONI, a atmosfera e a localização do que uma simples separação por regime.</p>
+          <span class="finding"><svg class="icon"><use href="#i-dot"></use></svg>Hipótese descartada com evidência</span>
         </div>
       </div>
 
@@ -372,12 +375,12 @@
   </section>
 
   <section id="leakage">
-    <p class="eyebrow">Um ponto de verificação relevante</p>
-    <h2>Um erro real foi encontrado — e essa é a parte que sustenta a confiabilidade do resultado</h2>
-    <p class="lead-p">Em ciência de dados, um dos erros mais comuns — e mais enganosos, porque parece positivo no primeiro momento — é o <b>data leakage</b><sup class="fnref"><a href="#fn-11" id="fnref-11">11</a></sup> (vazamento de dados): quando o modelo tem acesso, sem intenção, a uma informação que não estaria disponível em uma previsão real. Isso faz os resultados parecerem melhores do que realmente são durante o desenvolvimento, e falharem quando confrontados com dados genuinamente novos.</p>
+    <p class="eyebrow"><svg class="icon"><use href="#i-shield"></use></svg>Um ponto de verificação relevante</p>
+    <h2>Um erro real foi encontrado, e essa é a parte que sustenta a confiabilidade do resultado</h2>
+    <p class="lead-p">Em ciência de dados, um dos erros mais comuns (e mais enganosos, porque parece positivo no primeiro momento) é o <b>data leakage</b><sup class="fnref"><a href="#fn-11" id="fnref-11">11</a></sup> (vazamento de dados): quando o modelo tem acesso, sem intenção, a uma informação que não estaria disponível em uma previsão real. Isso faz os resultados parecerem melhores do que realmente são durante o desenvolvimento, e falharem quando confrontados com dados genuinamente novos.</p>
     <div class="analogy">
       <p class="tag">O que aconteceu, em termos técnicos simplificados</p>
-      <p>O índice ONI é calculado como a média de três meses seguidos (por exemplo, dezembro+janeiro+fevereiro). A primeira versão associou esse valor ao mês do <b>meio</b> da janela. O problema: se a previsão parte de janeiro para estimar fevereiro, e o valor de ONI "de janeiro" já inclui uma fração de fevereiro — o próprio mês-alvo da previsão —, isso constitui vazamento de informação futura.</p>
+      <p>O índice ONI é calculado como a média de três meses seguidos (por exemplo, dezembro+janeiro+fevereiro). A primeira versão associou esse valor ao mês do <b>meio</b> da janela. O problema: se a previsão parte de janeiro para estimar fevereiro, e o valor de ONI "de janeiro" já inclui uma fração de fevereiro (o próprio mês-alvo da previsão), isso constitui vazamento de informação futura.</p>
     </div>
     <div class="split">
       <div class="card bad">
@@ -388,61 +391,61 @@
       </div>
       <div class="card ok">
         <h3>Depois da correção</h3>
-        <p>Reindexei o valor pelo <b>último</b> mês da janela — o momento em que ele de fato fica disponível — e repeti o mesmo teste.</p>
+        <p>Reindexei o valor pelo <b>último</b> mês da janela (o momento em que ele de fato fica disponível) e repeti o mesmo teste.</p>
         <div class="bignum">0 / 12</div>
         <p style="margin-top:4px; font-size:15px">casos falharam o teste</p>
       </div>
     </div>
-    <p style="margin-top:24px; font-size:17px">Refiz as três validações históricas do zero com a versão corrigida, sem alterar mais nada — mesma amostragem, mesma configuração do modelo. O resultado corrigido não piorou: ficou <b>melhor</b> do que a versão com o erro.</p>
+    <p style="margin-top:24px; font-size:17px">Refiz as três validações históricas do zero com a versão corrigida, sem alterar mais nada (mesma amostragem, mesma configuração do modelo). O resultado corrigido não piorou: ficou <b>melhor</b> do que a versão com o erro.</p>
   </section>
 
   <section id="resultados">
-    <p class="eyebrow">Resultados</p>
+    <p class="eyebrow"><svg class="icon"><use href="#i-bar"></use></svg>Resultados</p>
     <h2>O que cada abordagem realmente entregou</h2>
     <p class="lead-p">Comparação na validação histórica (rolling-origin, três janelas). Quanto menor o RMSE, melhor o resultado.</p>
 
     <div class="bars">
       <div class="bar-row">
-        <span class="label">B00 — climatologia</span>
+        <span class="label">B00: climatologia</span>
         <div class="bar-track">
           <div class="bar-line"><div class="bar-fill" style="width:520px; background:var(--panel-2)"></div><span class="val">1,8739</span></div>
         </div>
       </div>
       <div class="bar-row">
-        <span class="label">M05 — anomalias</span>
+        <span class="label">M05: anomalias</span>
         <div class="bar-track">
           <div class="bar-line"><div class="bar-fill" style="width:496px; background:var(--panel-2)"></div><span class="val">1,8696</span></div>
         </div>
       </div>
       <div class="bar-row">
-        <span class="label" style="color:var(--accent)">M05+ONI — final</span>
+        <span class="label" style="color:var(--accent)">M05+ONI: final</span>
         <div class="bar-track">
           <div class="bar-line"><div class="bar-fill" style="width:414px; background:var(--accent)"></div><span class="val" style="color:var(--accent); font-weight:700">1,8514</span></div>
         </div>
       </div>
       <div class="bar-row">
-        <span class="label">CENSO — clima. por ENSO</span>
+        <span class="label">CENSO: clima. por ENSO</span>
         <div class="bar-track">
           <div class="bar-line"><div class="bar-fill" style="width:601px; background:var(--panel-2)"></div><span class="val">1,8917</span></div>
         </div>
       </div>
     </div>
-    <p style="font-size:14px; color:var(--ink-faint); margin-top:10px">Barras encurtadas artificialmente para destacar a diferença — a escala não começa em zero.</p>
+    <p style="font-size:14px; color:var(--ink-faint); margin-top:10px">Barras encurtadas artificialmente para destacar a diferença: a escala não começa em zero.</p>
 
     <h3 style="margin-top:56px">Confirmação no teste público (Kaggle)</h3>
     <table>
       <thead><tr><th>Submissão</th><th>Modelo</th><th>Nota pública (RMSE)</th></tr></thead>
       <tbody>
-        <tr><td>S00</td><td>B00 — climatologia</td><td>1,85077</td></tr>
-        <tr><td>S01</td><td>M03 — resíduo, sem ONI</td><td>1,85663</td></tr>
-        <tr class="final"><td>S02</td><td>M05+ONI — final</td><td>1,84982</td></tr>
+        <tr><td>S00</td><td>B00: climatologia</td><td>1,85077</td></tr>
+        <tr><td>S01</td><td>M03: resíduo, sem ONI</td><td>1,85663</td></tr>
+        <tr class="final"><td>S02</td><td>M05+ONI: final</td><td>1,84982</td></tr>
       </tbody>
     </table>
-    <p style="margin-top:16px; font-size:15px">O leaderboard público corresponde a 2023; a avaliação final usa 2024, ainda desconhecida. A escolha do modelo foi feita pela validação histórica, não pela nota pública — o Kaggle serviu só como confirmação externa.</p>
+    <p style="margin-top:16px; font-size:15px">O leaderboard público corresponde a 2023; a avaliação final usa 2024, ainda desconhecida. A escolha do modelo foi feita pela validação histórica, não pela nota pública. O Kaggle serviu apenas como confirmação externa.</p>
   </section>
 
   <section id="diagnostico">
-    <p class="eyebrow">Diagnóstico</p>
+    <p class="eyebrow"><svg class="icon"><use href="#i-search"></use></svg>Diagnóstico</p>
     <h2>Onde o erro realmente mora</h2>
     <p class="lead-p">Analisei em detalhe onde o modelo erra mais. A resposta: um número pequeno de eventos de chuva forte concentra a maior parte do erro.</p>
     <div class="bars">
@@ -472,37 +475,37 @@
   </section>
 
   <section id="reproducibilidade">
-    <p class="eyebrow">Reprodutibilidade</p>
+    <p class="eyebrow"><svg class="icon"><use href="#i-refresh"></use></svg>Reprodutibilidade</p>
     <h2>Um comando reproduz o resultado, bit a bit</h2>
     <p class="lead-p">Todo o pipeline usa <code class="inline">seed=42</code> de ponta a ponta. Para verificar isso, rodei o script de produção novamente, do zero, e comparei o arquivo gerado com a submissão já enviada ao Kaggle.</p>
     <ul class="plain">
       <li>Hash SHA-256 do arquivo original: <code class="inline">c33952ea…</code></li>
-      <li>Hash SHA-256 do arquivo reproduzido: <code class="inline">c33952ea…</code> — idêntico</li>
+      <li>Hash SHA-256 do arquivo reproduzido: <code class="inline">c33952ea…</code> (idêntico)</li>
       <li><code class="inline">diff</code> entre os dois arquivos: vazio</li>
     </ul>
-    <p>Isso confirma que o resultado não depende de sorte de execução — qualquer pessoa com os mesmos dados chega exatamente ao mesmo arquivo.</p>
+    <p>Isso confirma que o resultado não depende de sorte de execução: qualquer pessoa com os mesmos dados chega exatamente ao mesmo arquivo.</p>
   </section>
 
   <section id="notas">
-    <p class="eyebrow">Notas</p>
+    <p class="eyebrow"><svg class="icon"><use href="#i-book"></use></svg>Notas</p>
     <h2 style="font-size:32px">Glossário dos termos técnicos usados no texto</h2>
     <ol class="notas-list">
-      <li id="fn-1"><span><b>ERA5</b> — produto de reanálise climática publicado pelo ECMWF (Centro Europeu de Previsões Meteorológicas), que combina observações e modelos numéricos para reconstruir o estado da atmosfera desde 1940. <a class="back" href="#fnref-1">voltar ao texto ↩</a></span></li>
-      <li id="fn-2"><span><b>RMSE</b> (Root Mean Squared Error) — raiz do erro quadrático médio. Mede a distância entre a previsão e o valor real, em mm/dia; erros grandes pesam proporcionalmente mais do que erros pequenos. <a class="back" href="#fnref-2">voltar ao texto ↩</a></span></li>
-      <li id="fn-3"><span><b>Gate</b> — termo usado neste projeto para cada etapa experimental fechada: uma pergunta específica, um teste e um resultado registrado antes de avançar para a etapa seguinte. <a class="back" href="#fnref-3">voltar ao texto ↩</a></span></li>
-      <li id="fn-4"><span><b>B00</b> — nome interno do baseline por climatologia: para cada célula e mês, a média histórica de chuva observada naquele local e mês, sem uso de machine learning. <a class="back" href="#fnref-4">voltar ao texto ↩</a></span></li>
-      <li id="fn-5"><span><b>M01</b> — primeiro modelo supervisionado (LightGBM) treinado diretamente sobre os valores absolutos de precipitação, sem nenhum tratamento adicional. <a class="back" href="#fnref-5">voltar ao texto ↩</a></span></li>
-      <li id="fn-6"><span><b>M03</b> — modelo que passou a prever o resíduo (a diferença entre a chuva real e a climatologia), em vez do valor absoluto de precipitação. <a class="back" href="#fnref-6">voltar ao texto ↩</a></span></li>
-      <li id="fn-7"><span><b>M05</b> — o M03 acrescido de anomalias das variáveis atmosféricas: o desvio de cada variável em relação à sua própria climatologia (célula e mês). <a class="back" href="#fnref-7">voltar ao texto ↩</a></span></li>
-      <li id="fn-8"><span><b>Rolling-origin</b> — método de validação que repete o treino e o teste em várias janelas históricas com origens (cutoffs) diferentes, em vez de um único corte fixo. <a class="back" href="#fnref-8">voltar ao texto ↩</a></span></li>
-      <li id="fn-9"><span><b>ONI</b> (Oceanic Niño Index) — índice publicado pela NOAA que mede a temperatura da superfície do oceano Pacífico equatorial; valores positivos indicam El Niño, valores negativos indicam La Niña. <a class="back" href="#fnref-9">voltar ao texto ↩</a></span></li>
-      <li id="fn-10"><span><b>CENSO</b> — variante de climatologia (como o B00), mas calculada separadamente para cada regime ENSO (El Niño / Neutro / La Niña), sem uso de machine learning. <a class="back" href="#fnref-10">voltar ao texto ↩</a></span></li>
-      <li id="fn-11"><span><b>Data leakage</b> (vazamento de dados) — quando uma informação que não estaria disponível no momento real da previsão acaba entrando no treino ou na validação do modelo, inflando artificialmente o resultado medido. <a class="back" href="#fnref-11">voltar ao texto ↩</a></span></li>
+      <li id="fn-1"><span><b>ERA5</b>: produto de reanálise climática publicado pelo ECMWF (Centro Europeu de Previsões Meteorológicas), que combina observações e modelos numéricos para reconstruir o estado da atmosfera desde 1940. <a class="back" href="#fnref-1">voltar ao texto ↩</a></span></li>
+      <li id="fn-2"><span><b>RMSE</b> (Root Mean Squared Error): raiz do erro quadrático médio. Mede a distância entre a previsão e o valor real, em mm/dia; erros grandes pesam proporcionalmente mais do que erros pequenos. <a class="back" href="#fnref-2">voltar ao texto ↩</a></span></li>
+      <li id="fn-3"><span><b>Gate</b>: termo usado neste projeto para cada etapa experimental fechada: uma pergunta específica, um teste e um resultado registrado antes de avançar para a etapa seguinte. <a class="back" href="#fnref-3">voltar ao texto ↩</a></span></li>
+      <li id="fn-4"><span><b>B00</b>: nome interno do baseline por climatologia: para cada célula e mês, a média histórica de chuva observada naquele local e mês, sem uso de machine learning. <a class="back" href="#fnref-4">voltar ao texto ↩</a></span></li>
+      <li id="fn-5"><span><b>M01</b>: primeiro modelo supervisionado (LightGBM) treinado diretamente sobre os valores absolutos de precipitação, sem nenhum tratamento adicional. <a class="back" href="#fnref-5">voltar ao texto ↩</a></span></li>
+      <li id="fn-6"><span><b>M03</b>: modelo que passou a prever o resíduo (a diferença entre a chuva real e a climatologia), em vez do valor absoluto de precipitação. <a class="back" href="#fnref-6">voltar ao texto ↩</a></span></li>
+      <li id="fn-7"><span><b>M05</b>: o M03 acrescido de anomalias das variáveis atmosféricas: o desvio de cada variável em relação à sua própria climatologia (célula e mês). <a class="back" href="#fnref-7">voltar ao texto ↩</a></span></li>
+      <li id="fn-8"><span><b>Rolling-origin</b>: método de validação que repete o treino e o teste em várias janelas históricas com origens (cutoffs) diferentes, em vez de um único corte fixo. <a class="back" href="#fnref-8">voltar ao texto ↩</a></span></li>
+      <li id="fn-9"><span><b>ONI</b> (Oceanic Niño Index): índice publicado pela NOAA que mede a temperatura da superfície do oceano Pacífico equatorial; valores positivos indicam El Niño, valores negativos indicam La Niña. <a class="back" href="#fnref-9">voltar ao texto ↩</a></span></li>
+      <li id="fn-10"><span><b>CENSO</b>: variante de climatologia (como o B00), mas calculada separadamente para cada regime ENSO (El Niño / Neutro / La Niña), sem uso de machine learning. <a class="back" href="#fnref-10">voltar ao texto ↩</a></span></li>
+      <li id="fn-11"><span><b>Data leakage</b> (vazamento de dados): quando uma informação que não estaria disponível no momento real da previsão acaba entrando no treino ou na validação do modelo, inflando artificialmente o resultado medido. <a class="back" href="#fnref-11">voltar ao texto ↩</a></span></li>
     </ol>
   </section>
 
   <footer>
-    <p class="eyebrow" style="justify-content:center; display:flex">Código, dados e histórico completo</p>
+    <p class="eyebrow" style="justify-content:center; display:flex"><svg class="icon"><use href="#i-flask"></use></svg>Código, dados e histórico completo</p>
     <h3>23 gates, 26 commits, um processo auditável do início ao fim</h3>
     <a class="btn" href="https://github.com/helenavalanera/worcap-2026-previsao-clima">Ver repositório no GitHub</a>
     <p style="margin-top:32px">Helena de Oliveira Valanera · WORCAP 2026</p>
