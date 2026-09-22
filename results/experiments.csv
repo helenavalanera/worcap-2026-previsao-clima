@@ -1,0 +1,2 @@
+experiment,model,features,rmse_backtestA_global,rmse_backtestB_global_h1_12,rmse_h1_6,rmse_h7_12,rmse_h13_18,rmse_h19_24,kaggle_rmse,notes
+B00,Climatologia mensal espacial,mes+lat+lon (media historica ate a origem),1.8938,1.9003,1.9772,1.732,1.9717,1.7498,,baseline sem uso de variaveis atmosfericas; rmse_h1_6/h7_12/h13_18/h19_24 referem-se ao Backtest A (unico com os 24 horizontes completos); Backtest B so cobre h1-12 por falta de verdade observada em 2023

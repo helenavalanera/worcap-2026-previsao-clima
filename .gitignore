@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+data/raw/
+data/processed/
+data/.complete/
+*.nc
+models/*.joblib
+models/*.pkl
+submissions/*.csv
+.ipynb_checkpoints/
+.DS_Store
+kaggle.json
+.env

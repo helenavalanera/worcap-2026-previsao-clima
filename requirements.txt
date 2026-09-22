@@ -1,0 +1,12 @@
+pandas
+numpy
+scikit-learn
+xarray
+netCDF4
+matplotlib
+seaborn
+jupyter
+lightgbm
+kaggle
+kagglehub
+joblib
