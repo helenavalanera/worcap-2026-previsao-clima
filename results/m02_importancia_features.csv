@@ -1,0 +1,15 @@
+,backtest_A,backtest_B
+cloud_cover,679,757
+geopotential_850,911,933
+lat,752,694
+lon,670,655
+month_cos,458,442
+month_sin,459,412
+rel_hum_850,349,461
+shum_850,610,458
+surface_pressure,476,458
+t2,469,497
+temperature_850,578,679
+tp_climatologia,1183,1199
+u_850,731,690
+v_850,675,665
